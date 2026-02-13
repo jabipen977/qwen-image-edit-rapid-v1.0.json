@@ -1,5 +1,5 @@
 # clean base image containing only comfyui, comfy-cli and comfyui-manager
-FROM runpod/worker-comfyui:5.5.1-base
+FROM runpod/worker-comfyui:5.5.1-base-cuda12.8.1
 
 # install custom nodes into comfyui (first node with --mode remote to fetch updated cache)
 RUN comfy node install --exit-on-fail comfyui-kjnodes@1.2.9 --mode remote
