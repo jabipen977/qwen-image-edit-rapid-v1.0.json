@@ -7,9 +7,17 @@ RUN comfy node install --exit-on-fail comfyui-image-saver@1.21.0
 RUN comfy node install --exit-on-fail RES4LYF
 RUN comfy node install --exit-on-fail rgthree-comfy@1.0.2512112053
 # Could not resolve unknown_registry/MarkdownNote - no aux_id provided, skipping
-
-# download models into comfyui
-RUN comfy model download --url https://huggingface.co/Phr00t/Qwen-Image-Edit-Rapid-AIO/blob/5b72f3eff4a37bb4d7f0ba3b2d783c34b6bc3988/v11/Qwen-Rapid-AIO-NSFW-v11.4.safetensors --relative-path models/checkpoints --filename Qwen-Rapid-AIO-NSFW-v11.4.safetensors
+# Create extra_model_paths.yaml to point to network volume
+RUN echo "comfyui:" > /comfyui/extra_model_paths.yaml && \
+    echo "  checkpoints: /runpod-volume/models/checkpoints" >> /comfyui/extra_model_paths.yaml && \
+    echo "  vae: /runpod-volume/models/vae" >> /comfyui/extra_model_paths.yaml && \
+    echo "  text_encoders: /runpod-volume/models/text_encoders" >> /comfyui/extra_model_paths.yaml && \
+    echo "  loras: /runpod-volume/models/loras" >> /comfyui/extra_model_paths.yaml && \
+    echo "  embeddings: /runpod-volume/models/embeddings" >> /comfyui/extra_model_paths.yaml && \
+    echo "  controlnet: /runpod-volume/models/controlnet" >> /comfyui/extra_model_paths.yaml && \
+    echo "  upscale_models: /runpod-volume/models/upscale_models" >> /comfyui/extra_model_paths.yaml && \
+    echo "  clip: /runpod-volume/models/clip" >> /comfyui/extra_model_paths.yaml && \
+    echo "  unet: /runpod-volume/models/unet" >> /comfyui/extra_model_paths.yaml
 
 # copy all input data (like images or videos) into comfyui (uncomment and adjust if needed)
 # COPY input/ /comfyui/input/
